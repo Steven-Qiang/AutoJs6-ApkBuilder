@@ -7,6 +7,7 @@
             "path": "@semantic-release/changelog",
             "changelogFile": "CHANGELOG.md"
         },
+        "@semantic-release/npm",
         {
             "path": "@semantic-release/git",
             "assets": ["CHANGELOG.md"],
@@ -16,7 +17,7 @@
             "path": "@semantic-release/github",
             "assets": [
                 {
-                    "path": "dist/apkbuilder-cli.jar",
+                    "path": "build/libs/apkbuilder-cli.jar",
                     "label": "apkbuilder-cli-${nextRelease.version}.jar"
                 }
             ]

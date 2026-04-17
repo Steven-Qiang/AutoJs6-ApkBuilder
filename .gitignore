@@ -50,3 +50,11 @@ desktop.ini
 /project/
 /temp/
 /build_workspace/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+*.tgz

@@ -1,0 +1,40 @@
+{
+  "name": "autojs6-apkbuilder",
+  "version": "1.0.0",
+  "description": "AutoJs6 APK Builder CLI - Node.js wrapper",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "bin": {
+    "autojs6-apkbuilder": "cli.js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest",
+    "provenance": true
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "cli.js",
+    "build/libs/apkbuilder-cli.jar"
+  ],
+  "keywords": [
+    "autojs",
+    "autojs6",
+    "apk",
+    "builder",
+    "android"
+  ],
+  "author": "Steven-Qiang",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Steven-Qiang/AutoJs6-ApkBuilder.git"
+  },
+  "dependencies": {
+    "find-java-home": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      find-java-home:
+        specifier: ^2.0.0
+        version: 2.0.0
+
+packages:
+
+  find-java-home@2.0.0:
+    resolution: {integrity: sha512-m4Cf5WM5Y9UupofsLgcJuY5oFXVfVnfHx43pg3HJoVdtY2PN4Wfs7ex9svf7W7eLTP+6wmyBToaqGOCffHBHVA==}
+
+  which@1.0.9:
+    resolution: {integrity: sha512-E87fdQ/eRJr9W1X4wTPejNy9zTW3FI2vpCZSJ/HAY+TkjKVC0TUm1jk6vn2Z7qay0DQy0+RBGdXxj+RmmiGZKQ==}
+    hasBin: true
+
+  winreg@1.2.5:
+    resolution: {integrity: sha512-uf7tHf+tw0B1y+x+mKTLHkykBgK2KMs3g+KlzmyMbLvICSHQyB/xOFjTT8qZ3oeTFyU7Bbj4FzXitGG6jvKhYw==}
+
+snapshots:
+
+  find-java-home@2.0.0:
+    dependencies:
+      which: 1.0.9
+      winreg: 1.2.5
+
+  which@1.0.9: {}
+
+  winreg@1.2.5: {}

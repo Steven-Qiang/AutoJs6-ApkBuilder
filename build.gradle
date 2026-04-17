@@ -70,6 +70,7 @@ tasks.withType(JavaExec).configureEach {
 
 jar {
     archiveBaseName = 'apkbuilder-cli'
+    archiveVersion = ''
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest {

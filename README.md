@@ -96,6 +96,74 @@ java -jar apkbuilder-cli.jar -a autojs6.apk -s main.js -o myapp.apk
 java -jar apkbuilder-cli.jar -a autojs6.apk -s ./my_project -o myapp.apk
 ```
 
+## Node.js 使用
+
+本项目提供 Node.js 版本的 API 和 CLI，使用 `find-java-home` 自动查找 Java 环境。
+
+### 安装
+
+```bash
+npm install -g autojs6-apkbuilder
+```
+
+### CLI 使用
+
+Node.js CLI 与 Java CLI 参数完全一致：
+
+```bash
+# 打包单个脚本
+autojs6-apkbuilder -a autojs6.apk -s main.js -o myapp.apk
+
+# 打包项目目录
+autojs6-apkbuilder -a autojs6.apk -s ./my_project -o myapp.apk
+
+# 使用自定义签名
+autojs6-apkbuilder -a autojs6.apk -s ./my_project -o myapp.apk \
+  -k my-release-key.keystore -kp mypassword -ka myalias -kpa mykeypassword
+```
+
+### API 使用
+
+也可以通过编程方式调用：
+
+```javascript
+const { buildApk } = require('autojs6-apkbuilder');
+
+// 基础用法
+await buildApk({
+  autojs: 'autojs6.apk',
+  source: 'main.js',
+  output: 'myapp.apk'
+});
+
+// 完整选项
+await buildApk({
+  autojs: 'autojs6.apk',
+  source: './my_project',
+  output: 'myapp.apk',
+  workspace: './build',
+  keystore: 'my-release-key.keystore',
+  keystorePassword: 'mypassword',
+  keyAlias: 'myalias',
+  keyPassword: 'mykeypassword',
+  javaPath: '/path/to/java' // 可选，自定义 Java 路径
+});
+```
+
+TypeScript 示例：
+
+```typescript
+import { buildApk, ApkBuilderOptions } from 'autojs6-apkbuilder';
+
+const options: ApkBuilderOptions = {
+  autojs: 'autojs6.apk',
+  source: 'main.js',
+  output: 'myapp.apk'
+};
+
+await buildApk(options);
+```
+
 ## 命令行参数
 
 | 参数 | 简写 | 必需 | 说明 |
