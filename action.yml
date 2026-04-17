@@ -1,0 +1,99 @@
+name: 'AutoJs6 APK Builder'
+description: 'AutoJs6 packaging tool'
+author: 'Steven-Qiang'
+
+inputs:
+  autojs:
+    description: 'Path to AutoJs6 APK file'
+    required: true
+  source:
+    description: 'Project directory or .js script file'
+    required: true
+  output:
+    description: 'Output APK path'
+    required: false
+    default: 'output.apk'
+  workspace:
+    description: 'Build workspace directory'
+    required: false
+    default: './build_workspace'
+  keystore:
+    description: 'Custom keystore path'
+    required: false
+  keystore-password:
+    description: 'Keystore password'
+    required: false
+  key-alias:
+    description: 'Key alias in keystore'
+    required: false
+  key-password:
+    description: 'Key password (defaults to keystore password)'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Java
+      uses: actions/setup-java@v5
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Get latest release info
+      id: release-info
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const repo = context.repo;
+          const release = await github.rest.repos.getLatestRelease({
+            owner: repo.owner,
+            repo: repo.repo
+          });
+          
+          const jarAsset = release.data.assets.find(asset => 
+            asset.name.endsWith('.jar')
+          );
+          
+          if (!jarAsset) {
+            throw new Error('No JAR file found in release assets');
+          }
+          
+          return {
+            tag_name: release.data.tag_name,
+            download_url: jarAsset.browser_download_url
+          };
+        result-encoding: json
+
+    - name: Download JAR
+      shell: bash
+      run: |
+        mkdir -p .apk-builder
+        DOWNLOAD_URL='${{ fromJSON(steps.release-info.outputs.result).download_url }}'
+        echo "Downloading from: $DOWNLOAD_URL"
+        curl -L -o .apk-builder/apkbuilder-cli.jar "$DOWNLOAD_URL"
+
+    - name: Build APK
+      shell: bash
+      run: |
+        CMD="java -jar .apk-builder/apkbuilder-cli.jar -a ${{ inputs.autojs }} -s ${{ inputs.source }} -o ${{ inputs.output }}"
+        if [ -n "${{ inputs.workspace }}" ]; then
+          CMD="$CMD -w ${{ inputs.workspace }}"
+        fi
+        if [ -n "${{ inputs.keystore }}" ]; then
+          CMD="$CMD -k ${{ inputs.keystore }}"
+        fi
+        if [ -n "${{ inputs.keystore-password }}" ]; then
+          CMD="$CMD -kp ${{ inputs.keystore-password }}"
+        fi
+        if [ -n "${{ inputs.key-alias }}" ]; then
+          CMD="$CMD -ka ${{ inputs.key-alias }}"
+        fi
+        if [ -n "${{ inputs.key-password }}" ]; then
+          CMD="$CMD -kpa ${{ inputs.key-password }}"
+        fi
+        echo "Running: $CMD"
+        eval $CMD
+
+branding:
+  icon: 'package'
+  color: 'blue'
